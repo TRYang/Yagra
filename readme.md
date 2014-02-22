@@ -30,3 +30,14 @@
     带*号项为扩展，可选实现
 
 3.安装说明：
+
+    1、配置mysql
+        首先需要配置conf/conf.py中的mysql服务器信息
+            mysql_server：mysql服务器的地址
+            mysql_user：登录mysql的用户
+            mysql_password：登录mysql用户对应的密码
+            mysql_database：mysql使用的database
+        配置完后需要用mysql管理员创建mysql_user用户，创建mysql_database，授权给用户。
+            创建用户：create 'user_name'@'server_address' identified by 'user_password';
+            创建数据库：create database 'database_name';
+            授权：grant all on 'database_name'.* to 'user_name';
