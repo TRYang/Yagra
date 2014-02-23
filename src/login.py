@@ -10,31 +10,13 @@ import mymod.cgifunc as my_cgifunc
 
 cgitb.enable(display = 0, logdir = my_conf.CGI_log_dir)
 
-def output_error():
-    """ Output an error html
-    """
-    print my_cgifunc.content_type()
-    print """<HTML><HEAD><TITLE>Error</TITLE></HEAD>
-             <BODY><H1>UserName or Password error!</H1><br/>
-             Click back to login page : %s</BODY></HTML>""" %\
-             my_cgifunc.back_button()
-
-def output_error2():
-    """ Output an error html
-    """
-    print my_cgifunc.content_type()
-    print """<HTML><HEAD><TITLE>Error!!!!!!!!</TITLE></HEAD>
-             <BODY><H1>UserName or Password error!</H1><br/>
-             Click back to login page : %s</BODY></HTML>""" %\
-             my_cgifunc.back_button()
-
 def main():
     #get the form data and get cookies
     form = cgi.FieldStorage()
     if "UserName" not in form or "UserPassword" not in form:
         # The UserName or UserPassword is not finished.
         # Output an error html and a button back to login html
-        output_error()
+        my_cgifunc.output_error('UserName or UserPassword is empty')
     else:
         # fetch password from database, check the sercurity
         mysql_connect = MySQLdb.connect(host=my_conf.mysql_server,
@@ -49,7 +31,7 @@ def main():
             result = cursor.fetchone()
             cursor.close()
             if not result:
-                raise Exception
+                raise Exception('UserName wrong!')
             if result[2] == form['UserPassword'].value:
                 # The UserName and UserPassword is matched
                 # set the cookie and return the personal page
@@ -58,18 +40,12 @@ def main():
                 cookie['sid']['expires'] = 30 * 24 * 60 * 60
                 cookie['user'] = form['UserName'].value
                 print cookie
-                print 'Location: showPage.py'
+                print 'Location: index.py'
                 print
             else:
-                output_error()
-                #raise Exception
+                raise Exception('UserPassword wrong!')
         except Exception, e:
-            #output_error()
-            print my_cgifunc.content_type()
-            print my_cgifunc.html_header()
-            print command
-            print e
-            print my_cgifunc.html_tail()
+            my_cgifunc.output_error(repr(e))
         finally:
             mysql_connect.close()
 

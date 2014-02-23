@@ -18,7 +18,7 @@ def main():
     #get the form data and get cookies
     form = cgi.FieldStorage()
     cookie = Cookie.SimpleCookie()
-    cookie_str = os.environ['HTTP_COOKIE']
+    cookie_str = os.environ.get('HTTP_COOKIE')
 
     # check if cookie exist
     if not cookie_str:
@@ -37,9 +37,9 @@ def main():
                 passwd=my_conf.mysql_password,
                 db=my_conf.mysql_database)
         cur = mysql_connect.cursor()
-        cur.execute("select UserID
+        cur.execute("""select UserID
                      from UserInfo
-                     where UserName = '%s' and SessionID = '%s'" %
+                     where UserName = '%s' and SessionID = '%s';""" %
                      (cookie['user'].value, sid))
         result = cur.fetchone()
         cur.close()
