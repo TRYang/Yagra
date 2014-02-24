@@ -39,7 +39,8 @@ def main():
         print '<h3>User E-mail : %s</h3>' % result[3]
         print '<h3>Session ID : %s</h3>' % cookie['sid'].value
     else:
-        my_cgifunc.output_error('login error!')
+        my_cgifunc.output_error(message='login error!',
+                                back_page='back_to_login.py')
     # print the html tail
     print my_cgifunc.html_tail()
 

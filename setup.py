@@ -32,7 +32,7 @@ def init_database():
             UserName varchar(%d),
             Password varchar(%d),
             EMail varchar(%d),
-            SessionID char(%d),
+            SessionID char(%d)
         );""" % (my_conf.UserName_length,
                 my_conf.Password_length,
                 my_conf.EMail_length,

@@ -13,10 +13,10 @@ def html_header(title = "cgi-response"):
 def html_tail():
     return '</body></html>'
 
-def back_button():
-    return """<FORM METHOD=GET ACTION=back_to_login.py>
+def back_button(back_page = 'back_to_login.py'):
+    return """<FORM METHOD=GET ACTION=%s>
             <INPUT TYPE="SUBMIT" VALUE="BACK" NAME="Back">
-            </FORM>"""
+            </FORM>""" % back_page
 
 def link(url):
     print content_type()
@@ -30,10 +30,10 @@ def link(url):
         </HTML>
         """ % url
 
-def output_error(message):
+def output_error(message, back_page):
     print content_type()
     print html_header('Error')
     print '<H1>An error occured</H1><br/>'
     print '<h3> the error message is : %s</h3><br/>' % message
-    print back_button()
+    print back_button(back_page)
     print html_tail()

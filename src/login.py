@@ -16,7 +16,8 @@ def main():
     if "UserName" not in form or "UserPassword" not in form:
         # The UserName or UserPassword is not finished.
         # Output an error html and a button back to login html
-        my_cgifunc.output_error('UserName or UserPassword is empty')
+        my_cgifunc.output_error(message='UserName or UserPassword is empty',
+                                back_page='back_to_login.py')
     else:
         # fetch password from database, check the sercurity
         mysql_connect = MySQLdb.connect(host=my_conf.mysql_server,
@@ -45,7 +46,9 @@ def main():
             else:
                 raise Exception('UserPassword wrong!')
         except Exception, e:
-            my_cgifunc.output_error(repr(e))
+            my_cgifunc.output_error(message=repr(e),
+                                    back_page='back_to_login.py'
+                                    )
         finally:
             mysql_connect.close()
 

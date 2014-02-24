@@ -22,7 +22,7 @@ Password_length = 10
 # The maximum length of the E-mail
 EMail_length = 30
 # The length of the session id
-SessionID_length = sha.digest_size
+SessionID_length = 40
 
 #====================================================
 # This is the administrator configuration
