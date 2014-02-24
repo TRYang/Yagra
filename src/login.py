@@ -2,6 +2,7 @@
 import cgi
 import cgitb
 import Cookie
+import sha
 
 import MySQLdb
 
@@ -25,6 +26,7 @@ def main():
                 passwd=my_conf.mysql_password,
                 db=my_conf.mysql_database)
         cursor = mysql_connect.cursor()
+        password = sha.new(form['UserPassword'].value)
         try:
             command = """select * from UserInfo
                     where UserName = '%s';""" % form['UserName'].value
@@ -33,7 +35,7 @@ def main():
             cursor.close()
             if not result:
                 raise Exception('UserName wrong!')
-            if result[2] == form['UserPassword'].value:
+            if result[2] == password.hexdigest():
                 # The UserName and UserPassword is matched
                 # set the cookie and return the personal page
                 cookie = Cookie.SimpleCookie()

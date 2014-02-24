@@ -18,7 +18,7 @@ mysql_database = 'Yagra'
 # The maximum length of the UserName
 UserName_length = 30
 # The maximum length of the Password
-Password_length = 10
+Password_length = 40
 # The maximum length of the E-mail
 EMail_length = 30
 # The length of the session id

@@ -46,13 +46,14 @@ def main():
                 sid = gen_sid()
                 cursor.execute('select NextID from SysInfo')
                 userid = int(cursor.fetchone()[0])
+                password = sha.new(form['UserPassword'].value)
                 # insert user information into database
                 ins_command = """insert into UserInfo
                     (UserID, UserName, Password, EMail, SessionID) values
                     (%d, '%s', '%s', '%s', '%s')""" % (
                     userid,
                     form['UserName'].value,
-                    form['UserPassword'].value,
+                    password.hexdigest(),
                     form['EMail'].value,
                     sid
                     )
