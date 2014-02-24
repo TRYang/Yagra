@@ -39,7 +39,15 @@ AdminEMail = "ruiyangtan_terry@163.com"
 Version = "0.1"
 
 #====================================================
-# This is log configuration
+# This is http server information
 #====================================================
-# The cgi script log dir
+# http document root
+http_doc_path = '/home/apache/doc/'
+# Document root, relative to http document root
+DocPath = '/'
+# Cgi script root, relative to http document root
+CgiPath = '/cgi-bin/'
+# The cgi script log root
 CGI_log_dir = '/home/terry/log'
+# The data root, relative to http document root
+DataPath = '/data/'

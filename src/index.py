@@ -39,8 +39,8 @@ def main():
         cur = mysql_connect.cursor()
         cur.execute("""select UserID
                      from UserInfo
-                     where UserName = '%s' and SessionID = '%s';""" %
-                     (cookie['user'].value, sid))
+                     where UserID = %d and SessionID = '%s';""" %
+                     (int(cookie['userid'].value), sid))
         result = cur.fetchone()
         cur.close()
         mysql_connect.close()

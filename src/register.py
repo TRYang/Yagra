@@ -57,11 +57,14 @@ def main():
                     form['EMail'].value,
                     sid
                     )
+                ins_command2 = """insert into UserPath
+                    (UserID) values (%d)""" % userid
                 # update system's information
                 upd_command1 = """update SysInfo set UserCount = UserCount + 1"""
                 upd_command2 = """update SysInfo set NextID = NextID + 1"""
                 try:
                     cursor.execute(ins_command)
+                    cursor.execute(ins_command2)
                     cursor.execute(upd_command1)
                     cursor.execute(upd_command2)
                     mysql_connect.commit()
@@ -77,6 +80,7 @@ def main():
                 cookie['sid'] = sid
                 cookie['sid']['expires'] = 30 * 24 * 60 * 60
                 cookie['user'] = form['UserName'].value
+                cookie['userid'] = userid
                 print cookie
                 print 'Location: index.py'
                 print
