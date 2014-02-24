@@ -37,9 +37,11 @@ def main():
     mysql_connect.close()
     if result:
         print '<H1>UserName : %s</H1>' % result[1]
+        print '<h3>UserID : %d</H1>' % result[0]
         print '<h3>User E-mail : %s</h3>' % result[3]
         print '<h3>Session ID(cookie) : %s</h3>' % cookie['sid'].value
         print '<h3>Session ID : %s</h3>' % result[4]
+        print '<h3>Password : %s</h3>' % result[2]
         print """<FORM METHOD=GET ACTION=/cgi-bin/logout.py>
                 <INPUT TYPE=SUBMIT VALUE="登出" NAME="Logout">
                 </FORM>"""
