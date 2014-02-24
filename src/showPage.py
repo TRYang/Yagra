@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# coding: UTF-8
 import os
 import sys
 import cgi
@@ -37,7 +38,11 @@ def main():
     if result:
         print '<H1>UserName : %s</H1>' % result[1]
         print '<h3>User E-mail : %s</h3>' % result[3]
-        print '<h3>Session ID : %s</h3>' % cookie['sid'].value
+        print '<h3>Session ID(cookie) : %s</h3>' % cookie['sid'].value
+        print '<h3>Session ID : %s</h3>' % result[4]
+        print """<FORM METHOD=GET ACTION=/cgi-bin/logout.py>
+                <INPUT TYPE=SUBMIT VALUE="登出" NAME="Logout">
+                </FORM>"""
     else:
         my_cgifunc.output_error(message='login error!',
                                 back_page='back_to_login.py')
