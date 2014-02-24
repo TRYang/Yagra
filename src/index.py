@@ -29,6 +29,9 @@ def main():
         # The session is already exist
         # identify the UserName in cookies
         cookie.load(cookie_str)
+        if 'user' not in cookie or cookie['user'].value == 'nobody':
+            my_cgifunc.link('/login.html')
+            return
         sid = cookie['sid'].value
         # select username and session id from database
         # and compare with the session id from cookie

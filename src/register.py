@@ -42,7 +42,8 @@ def main():
                         )
             cursor.execute(command)
             result = cursor.fetchall()
-            if not result:
+            # 'nobody' is not available
+            if not result and not form['UserName'].value == 'nobody':
                 sid = gen_sid()
                 cursor.execute('select NextID from SysInfo')
                 userid = int(cursor.fetchone()[0])
