@@ -33,15 +33,25 @@ def main():
     cursor.execute("select * from UserInfo where UserName = '%s';" %
             cookie['user'].value)
     result = cursor.fetchone()
+    cursor.execute("select * from UserPath where UserID = %d;" %
+                int(cookie['userid'].value))
+    avatar_path = cursor.fetchone()[1]
     cursor.close()
     mysql_connect.close()
     if result:
         print '<H1>UserName : %s</H1>' % result[1]
-        print '<h3>UserID : %d</H1>' % result[0]
         print '<h3>User E-mail : %s</h3>' % result[3]
-        print '<h3>Session ID(cookie) : %s</h3>' % cookie['sid'].value
-        print '<h3>Session ID : %s</h3>' % result[4]
-        print '<h3>Password : %s</h3>' % result[2]
+        print '<img src="http://%s:%s/%s/%s" alt="avatar">' % (
+                os.environ.get('SERVER_NAME'),
+                os.environ.get('SERVER_PORT'),
+                my_conf.DataPath,
+                avatar_path)
+        print """<FORM METHOD=POST ENCTYPE="multipart/form-data" \
+                action=/cgi-bin/upload.py>
+                    <input type=FILE NAME="file">
+                    <input type=SUBMIT value="upload" NAME="upload">
+                </FORM>
+              """
         print """<FORM METHOD=GET ACTION=/cgi-bin/logout.py>
                 <INPUT TYPE=SUBMIT VALUE="登出" NAME="Logout">
                 </FORM>"""

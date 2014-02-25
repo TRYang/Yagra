@@ -17,6 +17,7 @@ def init_database():
         It will create the tables.
         table UserInfo includes (UserID, UserName, Password, E-mail, \
                 SessionID)
+        table UserPath includes (UserID, Path, UpdateTime)
         table SysInfo includes (UserCount, Admin, Admin E-mail, Version)
 
         And store the system information into the database.
@@ -37,7 +38,11 @@ def init_database():
                 my_conf.Password_length,
                 my_conf.EMail_length,
                 my_conf.SessionID_length)
-
+        createUserPath = """create table UserPath (
+            UserID int,
+            Path varchar(100),
+            UpdateTime datetime
+            );"""
         createSysInfo = """create table SysInfo (
             UserCount int,
             Admin varchar(50),
@@ -53,6 +58,7 @@ def init_database():
                 my_conf.Version)
         try:
             cur.execute(createUserInfo)
+            cur.execute(createUserPath)
             cur.execute(createSysInfo)
             cur.execute(insertSysInfo)
             mysql_connect.commit()
@@ -81,9 +87,11 @@ def drop_database():
                 db=my_conf.mysql_database)
         cur = mysql_connect.cursor()
         dropUserInfo = """drop table UserInfo;"""
+        dropUserPath = """drop table UserPath;"""
         dropSysInfo = """drop table SysInfo;"""
         try:
             cur.execute(dropUserInfo)
+            cur.execute(dropUserPath)
             cur.execute(dropSysInfo)
             mysql_connect.commit()
         except Exception, e:
@@ -102,7 +110,9 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         usage()
         sys.exit(1)
+
     if sys.argv[1] == 'init':
+        # init database
         if init_database():
             print "init database failed, please check the mysql config"
             sys.exit(1)

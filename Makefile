@@ -1,7 +1,7 @@
 INSTALL_PATH = /home/apache
 DOC = doc/index.html doc/login.html doc/register.html
 CONF = conf/conf.py
-SCRIPT = src/index.py src/login.py src/back_to_login.py src/showPage.py src/register.py src/back_to_register.py src/logout.py
+SCRIPT = src/index.py src/login.py src/back_to_login.py src/showPage.py src/register.py src/back_to_register.py src/logout.py src/upload.py
 MOD = mymod
 
 all: $(DOC) $(SCRIPT)
