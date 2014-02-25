@@ -16,9 +16,8 @@ import mymod.cgifunc as my_cgifunc
 
 cgitb.enable(display = 0, logdir = my_conf.CGI_log_dir)
 
-def gen_sid():
-    sid = sha.new()
-    sid.update(str(random.random()))
+def gen_sid(user):
+    sid = sha.new(user)
     return sid.hexdigest()
 
 def testUserName(user):
@@ -66,10 +65,10 @@ def main():
             result = cursor.fetchall()
             # 'nobody' is not available
             if not result and not form['UserName'].value == 'nobody':
-                sid = gen_sid()
+                sid = gen_sid(form['UserName'].value)
                 cursor.execute('select NextID from SysInfo')
                 userid = int(cursor.fetchone()[0])
-                salt = os.urandom(my_conf.Salt_length)
+                salt = sha.new(str(random.random())).hexdigest()[0:my_conf.Salt_length]
                 password = sha.new(form['UserPassword'].value + salt)
                 # insert user information into database
                 ins_command = """insert into UserInfo

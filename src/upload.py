@@ -8,6 +8,7 @@ import Cookie
 import random
 import sha
 import os.path
+import datetime
 
 import MySQLdb
 
@@ -38,15 +39,17 @@ def main():
             if result[1]:
                 os.remove(os.path.join(my_conf.http_doc_path + my_conf.DataPath,
                             result[1]))
-            filename = sha.new(str(random.random())).hexdigest()
-            suffix = form['file'].filename.split('.')[-1]
+            filename = sha.new(cookie['user'].value).hexdigest()
             file_path = os.path.join(my_conf.http_doc_path + my_conf.DataPath,
-                                    '.'.join((filename, suffix)))
+                                    filename)
             with open(file_path, 'w+b') as fp:
                 fp.write(form['file'].file.read())
-            cursor.execute("""update UserPath set Path = '%s'
+            cur_datetime = datetime.datetime.today()
+            cursor.execute("""update UserPath set Path = '%s',
+                            UpdateTime = '%s'
                             where UserID = %d;""" % (
-                            '.'.join((filename, suffix)),
+                            filename,
+                            cur_datetime,
                             int(cookie['userid'].value))
                         )
             mysql_connect.commit()
