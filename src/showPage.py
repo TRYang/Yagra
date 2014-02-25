@@ -55,6 +55,9 @@ def main():
                     <input type=SUBMIT value="upload" NAME="upload">
                 </FORM>
               """
+        print """<FORM METHOD=GET ACTION=/reset_password.html>
+                <INPUT TYPE=SUBMIT VALUE="修改密码" NAME="Reset">
+                </FORM>"""
         print """<FORM METHOD=GET ACTION=/cgi-bin/logout.py>
                 <INPUT TYPE=SUBMIT VALUE="登出" NAME="Logout">
                 </FORM>"""
