@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>API文档</title>
+    </head>
+    <body>
+        <h1>API使用方法</h1>
+        <p>可用http://server_address/data/finger来获取用户user_name的头像</p>
+        <p>finger采用sha算法进行hash，python可以用一下代码获取指纹：</p>
+        <h3>import sha</h3>
+        <h3>     print sha.new(user_name).hexdigest()</h3>
+        <p>例如服务器的域名是localhost，用户名为'test'</p>
+        <p>则可以用一下的url获取头像：</p>
+        <h3>http://localhost/data/a94a8fe5ccb19ba61c4c0873d391e987982fbbd3</h3>
+        <form method=get action=index.html>
+            <input type=submit value="首页">
+        </form>
+    </body>
+</html>
