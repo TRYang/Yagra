@@ -69,16 +69,18 @@ def main():
                 sid = gen_sid()
                 cursor.execute('select NextID from SysInfo')
                 userid = int(cursor.fetchone()[0])
-                password = sha.new(form['UserPassword'].value)
+                salt = os.urandom(my_conf.Salt_length)
+                password = sha.new(form['UserPassword'].value + salt)
                 # insert user information into database
                 ins_command = """insert into UserInfo
-                    (UserID, UserName, Password, EMail, SessionID) values
-                    (%d, '%s', '%s', '%s', '%s')""" % (
+                    (UserID, UserName, Password, EMail, SessionID, Salt) values
+                    (%d, '%s', '%s', '%s', '%s', '%s')""" % (
                     userid,
                     form['UserName'].value,
                     password.hexdigest(),
                     form['EMail'].value,
-                    sid
+                    sid,
+                    salt
                     )
                 ins_command2 = """insert into UserPath
                     (UserID) values (%d)""" % userid

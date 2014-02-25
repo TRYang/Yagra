@@ -16,7 +16,7 @@ def init_database():
     """ This is for the database initialization.
         It will create the tables.
         table UserInfo includes (UserID, UserName, Password, E-mail, \
-                SessionID)
+                SessionID, Salt)
         table UserPath includes (UserID, Path, UpdateTime)
         table SysInfo includes (UserCount, Admin, Admin E-mail, Version)
 
@@ -33,11 +33,13 @@ def init_database():
             UserName varchar(%d),
             Password varchar(%d),
             EMail varchar(%d),
-            SessionID char(%d)
+            SessionID char(%d),
+            Salt char(%d)
         );""" % (my_conf.UserName_length,
                 my_conf.Password_length,
                 my_conf.EMail_length,
-                my_conf.SessionID_length)
+                my_conf.SessionID_length,
+                my_conf.Salt_length)
         createUserPath = """create table UserPath (
             UserID int,
             Path varchar(100),

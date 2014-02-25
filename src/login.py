@@ -26,7 +26,6 @@ def main():
                 passwd=my_conf.mysql_password,
                 db=my_conf.mysql_database)
         cursor = mysql_connect.cursor()
-        password = sha.new(form['UserPassword'].value)
         try:
             command = """select * from UserInfo
                     where UserName = '%s' or EMail = '%s';""" % (
@@ -36,6 +35,7 @@ def main():
             cursor.close()
             if not result:
                 raise Exception('UserName wrong!')
+            password = sha.new(form['UserPassword'].value + result[5])
             if result[2] == password.hexdigest():
                 # The UserName and UserPassword is matched
                 # set the cookie and return the personal page

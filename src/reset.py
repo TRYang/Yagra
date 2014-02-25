@@ -35,8 +35,9 @@ def main():
             cursor.execute("""select * from UserInfo where UserID = %d;""" %
                             int(cookie['userid'].value))
             result = cursor.fetchone()
-            old_password = sha.new(form['old_password'].value).hexdigest()
-            new_password = sha.new(form['new_password'].value).hexdigest()
+            salt = result[5]
+            old_password = sha.new(form['old_password'].value + salt).hexdigest()
+            new_password = sha.new(form['new_password'].value + salt).hexdigest()
             if result and result[2] == old_password:
                 cursor.execute("""update UserInfo set Password = '%s'
                                   where UserID = %d;""" % (

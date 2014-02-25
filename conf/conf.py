@@ -23,6 +23,8 @@ Password_length = 40
 EMail_length = 50
 # The length of the session id
 SessionID_length = 40
+# The length of salt
+Salt_length = 10
 
 #====================================================
 # This is the administrator configuration
