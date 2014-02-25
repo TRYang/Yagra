@@ -36,6 +36,15 @@
         密码保存的方式时在明文后添加一段salt，再用sha-1算法加密，最后得到40位长的16进制串
     用户名：
         可使用用户名或邮箱进行登录
+    API:
+        可用http://server_address/data/finger来获取用户user_name的头像
+        finger采用sha算法进行hash，python可以用一下代码获取指纹：
+            import sha
+            print sha.new(user_name).hexdigest()
+        例如服务器的域名是localhost，用户名为'test'
+        则可以用一下的url获取头像：
+            http://localhost/data/a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+
 
     站点实现主要通过cgi程序，调用mysql接口，实现数据（头像）的上传和下载。
     用户的功能通过http的session来实现，通过读取cookie中的sid和设置来判断用户。
