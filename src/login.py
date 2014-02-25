@@ -42,6 +42,7 @@ def main():
                 cookie['sid'] = result[4]
                 cookie['sid']['expires'] = 30 * 24 * 60 * 60
                 cookie['user'] = form['UserName'].value
+                cookie['userid'] = str(result[0])
                 print cookie
                 print 'Location: index.py'
                 print
