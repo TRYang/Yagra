@@ -41,7 +41,7 @@ def main():
     if result:
         print '<H1>UserName : %s</H1>' % result[1]
         print '<h3>User E-mail : %s</h3>' % result[3]
-        if avatar_path and os.path.isfile(avatar_path):
+        if avatar_path:
             print '<img src="http://%s:%s/%s/%s" alt="avatar">' % (
                     os.environ.get('SERVER_NAME'),
                     os.environ.get('SERVER_PORT'),
