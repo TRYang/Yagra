@@ -4,16 +4,19 @@
     </head>
     <body>
         <FORM METHOD=POST ACTION=/cgi-bin/register.py>
-            <B>用户名：</B><INPUT TYPE=TEXT SIZE=30 NAME="UserName">
+            <B>用户名：</B><INPUT TYPE=TEXT SIZE=30 NAME="UserName"><B>(长度不超过30，只包含字母和数字和‘_'，必须以字母开头)</B>
             <br/>
-            <B>密码：</B><INPUT TYPE=PASSWORD SIZE=30 NAME="UserPassword">
+            <B>密码：</B><INPUT TYPE=PASSWORD SIZE=30 NAME="UserPassword"><B>(长度不超过40位)</B>
             <br/>
             <B>再次输入密码：</B><INPUT TYPE=PASSWORD SIZE=30 NAME="PasswordAgain">
             <br/>
-            <B>E-mail：</B><INPUT TYPE=TEXT SIZE=30 NAME="EMail">
+            <B>E-mail：</B><INPUT TYPE=TEXT SIZE=30 NAME="EMail"><B>(必须是合法的E-mail地址，用于找回密码)</B>
             <br/>
             <INPUT TYPE=SUBMIT VALUE="注册" NAME="Reg">
             <INPUT TYPE=RESET VALUE="重置" NAME="Reset">
+        </FORM>
+        <FORM METHOD=GET ACTION=/login.html>
+            <INPUT TYPE=SUBMIT VALUE="Back" NAME="Back">
         </FORM>
     </body>
 </HTML>

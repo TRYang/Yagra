@@ -6,6 +6,8 @@ import cgitb
 import Cookie
 import sha
 import random
+import string
+import re
 
 import MySQLdb
 
@@ -19,6 +21,23 @@ def gen_sid():
     sid.update(str(random.random()))
     return sid.hexdigest()
 
+def testUserName(user):
+    if len(user) > my_conf.UserName_length:
+        return 0
+    for c in user:
+        if c not in string.ascii_letters and \
+            c not in string.digits and \
+            c != '_':
+            return 0
+    return user[0] in string.ascii_letters
+
+def testPassword(word):
+    return len(word) <= my_conf.Password_length
+
+def testMail(mail):
+    return 0 if not re.match(
+    r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", mail) else 1
+
 def main():
     form = cgi.FieldStorage()
     # check the form data
@@ -26,7 +45,10 @@ def main():
         'UserPassword' in form and \
         'PasswordAgain' in form and \
         'EMail' in form and \
-        form['UserPassword'].value == form['PasswordAgain'].value:
+        testUserName(form['UserName'].value) and \
+        form['UserPassword'].value == form['PasswordAgain'].value and \
+        testPassword(form['UserPassword'].value) and \
+        testMail(form['EMail'].value):
         try:
             # insert data into the database
             mysql_connect = MySQLdb.connect(host=my_conf.mysql_server,

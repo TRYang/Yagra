@@ -20,7 +20,7 @@ UserName_length = 30
 # The maximum length of the Password
 Password_length = 40
 # The maximum length of the E-mail
-EMail_length = 30
+EMail_length = 50
 # The length of the session id
 SessionID_length = 40
 

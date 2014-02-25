@@ -29,7 +29,8 @@ def main():
         password = sha.new(form['UserPassword'].value)
         try:
             command = """select * from UserInfo
-                    where UserName = '%s';""" % form['UserName'].value
+                    where UserName = '%s' or EMail = '%s';""" % (
+                            form['UserName'].value, form['UserName'].value)
             cursor.execute(command)
             result = cursor.fetchone()
             cursor.close()
@@ -41,7 +42,7 @@ def main():
                 cookie = Cookie.SimpleCookie()
                 cookie['sid'] = result[4]
                 cookie['sid']['expires'] = 30 * 24 * 60 * 60
-                cookie['user'] = form['UserName'].value
+                cookie['user'] = result[1]
                 cookie['userid'] = str(result[0])
                 print cookie
                 print 'Location: index.py'
