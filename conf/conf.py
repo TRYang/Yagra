@@ -1,4 +1,3 @@
-import sha
 #=================================================
 # This is the mysql server configuration
 #=================================================
@@ -53,3 +52,16 @@ CgiPath = '/cgi-bin/'
 CGI_log_dir = '/home/terry/log'
 # The data root, relative to http document root
 DataPath = '/data/'
+
+#====================================================
+# This is the server mail information
+#====================================================
+# The server mail-box address, use for send mail to user
+Server_mail = 'ruiyang_Yagra'
+# The server mail-box host
+Server_mail_host = 'smtp.163.com'
+# The server mail-box password
+Server_mail_password = 'forYagra'
+# The server mail-box postfix
+Server_mail_postfix = '163.com'
+
