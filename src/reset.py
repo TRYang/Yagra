@@ -11,7 +11,7 @@ import MySQLdb
 import conf as my_conf
 import mymod.cgifunc as my_cgifunc
 
-cgitb.enable(display = 0, logdir = my_conf.CGI_log_dir)
+cgitb.enable(display=0, logdir=my_conf.CGI_log_dir)
 
 def main():
     form = cgi.FieldStorage()
