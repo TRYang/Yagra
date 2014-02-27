@@ -71,7 +71,7 @@
             mysql_password：登录mysql用户对应的密码
             mysql_database：mysql使用的database
         配置完后需要用mysql管理员创建mysql_user用户，创建mysql_database，授权给用户。
-            创建用户：create 'user_name'@'server_address' identified by 'user_password';
+            创建用户：create user 'user_name'@'server_address' identified by 'user_password';
             创建数据库：create database 'database_name';
             授权：grant all on 'database_name'.* to 'user_name';
 
@@ -83,7 +83,7 @@
         http_doc_path：服务器存放文档的根目录
         http_cgi_path：服务器/cgi-bin/的目录
         * 以上两项根据http server的配置文件来设置
-        * 注意目录的权限问题
+        * 注意目录的权限问题，必须具有写权限。
         CGI_log_dir：服务器存放cgi程序日志的目录
 
     4、配置管理邮箱信息
