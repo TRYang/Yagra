@@ -3,6 +3,7 @@ import cgi
 import cgitb
 import Cookie
 import sha
+import datetime
 
 import MySQLdb
 
@@ -27,11 +28,22 @@ def main():
                 db=my_conf.mysql_database)
         cursor = mysql_connect.cursor()
         try:
-            command = """select * from UserInfo
+            # find user profile in Cache
+            command = """select * from Cache
                     where UserName = '%s' or EMail = '%s';""" % (
                             form['UserName'].value, form['UserName'].value)
             cursor.execute(command)
             result = cursor.fetchone()
+            # find user profile in UserInfo
+            if not result:
+                command = """select * from UserInfo
+                        where UserName = '%s' or EMail = '%s';""" % (
+                                form['UserName'].value, form['UserName'].value)
+                cursor.execute(command)
+                result = cursor.fetchone()
+                hit_cache = 0
+            else:
+                hit_cache = 1
             cursor.close()
             if not result:
                 raise Exception('UserName wrong!')
@@ -44,6 +56,37 @@ def main():
                 cookie['sid']['expires'] = 30 * 24 * 60 * 60
                 cookie['user'] = result[1]
                 cookie['userid'] = str(result[0])
+                # Update cache, use LRU(Least Recent Use) algorithm
+                cursor = mysql_connect.cursor()
+                if hit_cache:
+                    #Update cache
+                    cursor.execute("""update Cache set UpdateTime = '%s'
+                                    where UserID = %d""" % (
+                                datetime.datetime.today(), int(result[0])))
+                    mysql_connect.commit()
+                else:
+                    #Insert into cache
+                    cursor.execute("""select COUNT(*) from Cache""")
+                    cache_count = int(cursor.fetchone()[0])
+                    if cache_count == my_conf.Cache_size:
+                        # delete one row
+                        cursor.execute("""select UserID from Cache
+                                where UpdateTime = (
+                                select MIN(UpdateTime) from Cache);""")
+                        del_id = int(cursor.fetchall()[0][0])
+                        cursor.execute("""delete from Cache
+                                where UserID = %d""" % del_id)
+                    cursor.execute("""insert into Cache (
+                    UserID, UserName, Password, EMail, SessionID,
+                    Salt, UpdateTime
+                    ) values (
+                    %d, '%s', '%s', '%s', '%s', '%s', '%s'
+                    )""" % (
+                    int(result[0]), result[1], result[2], result[3],
+                    result[4], result[5], datetime.datetime.today()
+                    )
+                    )
+                    mysql_connect.commit()
                 print cookie
                 print 'Location: index.py'
                 print

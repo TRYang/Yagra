@@ -24,6 +24,8 @@ def init_database():
                 SessionID, Salt)
         table UserPath includes (UserID, Path, UpdateTime)
         table SysInfo includes (UserCount, Admin, Admin E-mail, Version)
+        table Cache includes (UserID, UserName, Password, E-mail, \
+                SessionID, Salt, UpdateTime)
 
         And store the system information into the database.
     """
@@ -36,6 +38,7 @@ def init_database():
         dropUserInfo = """drop table if exists UserInfo;"""
         dropUserPath = """drop table if exists UserPath;"""
         dropSysInfo = """drop table if exists SysInfo;"""
+        dropCache = """drop table if exists Cache;"""
         createUserInfo = """create table UserInfo (
             UserID int primary key,
             UserName varchar(%d),
@@ -43,6 +46,19 @@ def init_database():
             EMail varchar(%d),
             SessionID char(%d),
             Salt char(%d)
+        );""" % (my_conf.UserName_length,
+                my_conf.Password_length,
+                my_conf.EMail_length,
+                my_conf.SessionID_length,
+                my_conf.Salt_length)
+        createCache = """create table Cache (
+            UserID int primary key,
+            UserName varchar(%d),
+            Password varchar(%d),
+            EMail varchar(%d),
+            SessionID char(%d),
+            Salt char(%d),
+            UpdateTime datetime
         );""" % (my_conf.UserName_length,
                 my_conf.Password_length,
                 my_conf.EMail_length,
@@ -68,9 +84,11 @@ def init_database():
                 my_conf.Version)
         try:
             cur.execute(dropUserInfo)
+            cur.execute(dropCache)
             cur.execute(dropUserPath)
             cur.execute(dropSysInfo)
             cur.execute(createUserInfo)
+            cur.execute(createCache)
             cur.execute(createUserPath)
             cur.execute(createSysInfo)
             cur.execute(insertSysInfo)
@@ -100,10 +118,12 @@ def drop_database():
                 db=my_conf.mysql_database)
         cur = mysql_connect.cursor()
         dropUserInfo = """drop table if exists UserInfo;"""
+        dropCache = """drop table if exists Cache;"""
         dropUserPath = """drop table if exists UserPath;"""
         dropSysInfo = """drop table if exists SysInfo;"""
         try:
             cur.execute(dropUserInfo)
+            cur.execute(dropCache)
             cur.execute(dropUserPath)
             cur.execute(dropSysInfo)
             mysql_connect.commit()
@@ -160,6 +180,7 @@ if __name__ == '__main__':
         else:
             print "init database ok."
 
+        sys.exit(0)
         #copy the file to the server root
         if copy_files():
             print "copy files failed, please check the Path configuration in the 'conf/conf.py'"

@@ -43,9 +43,9 @@ Version = "0.1"
 # This is http server information
 #====================================================
 # http document root
-http_doc_path = '/home/terry/server/doc/'
+http_doc_path = '/home/apache/doc'
 # Cgi script root, relative to http document root
-http_cgi_path = '/home/terry/server/cgi-bin/'
+http_cgi_path = '/home/apache/cgi-bin/'
 # The cgi script log root
 CGI_log_dir = '/home/terry/log/'
 
@@ -61,3 +61,7 @@ Server_mail_password = 'forYagra'
 # The server mail-box postfix
 Server_mail_postfix = '163.com'
 
+#====================================================
+# This is the cache table configuration
+#====================================================
+Cache_size = 40
