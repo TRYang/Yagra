@@ -73,10 +73,13 @@ def main():
                 </FORM>
               """
         print """<FORM METHOD=GET ACTION=/reset_password.html>
-                <INPUT TYPE=SUBMIT VALUE="修改密码" NAME="Reset">
+                <INPUT TYPE=SUBMIT VALUE="修改密码">
+                </FORM>"""
+        print """<FORM METHOD=GET ACTION=/reset_mail.html>
+                <INPUT TYPE=SUBMIT VALUE="修改邮箱">
                 </FORM>"""
         print """<FORM METHOD=GET ACTION=logout.py>
-                <INPUT TYPE=SUBMIT VALUE="登出" NAME="Logout">
+                <INPUT TYPE=SUBMIT VALUE="登出">
                 </FORM>"""
     else:
         my_cgifunc.output_error(message='login error!',
