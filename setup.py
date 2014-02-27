@@ -1,10 +1,15 @@
 #!/usr/bin/python
 import os
 import sys
+import os.path
+import shutil
 
 import MySQLdb
 
 import conf.conf as my_conf
+
+# myself module list
+mod_list = ['src/mymod']
 
 def usage():
     print "Usage: ./%s command" % sys.argv[0]
@@ -28,6 +33,9 @@ def init_database():
                 passwd=my_conf.mysql_password,
                 db=my_conf.mysql_database)
         cur = mysql_connect.cursor()
+        dropUserInfo = """drop table if exists UserInfo;"""
+        dropUserPath = """drop table if exists UserPath;"""
+        dropSysInfo = """drop table if exists SysInfo;"""
         createUserInfo = """create table UserInfo (
             UserID int primary key,
             UserName varchar(%d),
@@ -59,6 +67,9 @@ def init_database():
                 my_conf.AdminEMail,
                 my_conf.Version)
         try:
+            cur.execute(dropUserInfo)
+            cur.execute(dropUserPath)
+            cur.execute(dropSysInfo)
             cur.execute(createUserInfo)
             cur.execute(createUserPath)
             cur.execute(createSysInfo)
@@ -88,9 +99,9 @@ def drop_database():
                 passwd=my_conf.mysql_password,
                 db=my_conf.mysql_database)
         cur = mysql_connect.cursor()
-        dropUserInfo = """drop table UserInfo;"""
-        dropUserPath = """drop table UserPath;"""
-        dropSysInfo = """drop table SysInfo;"""
+        dropUserInfo = """drop table if exists UserInfo;"""
+        dropUserPath = """drop table if exists UserPath;"""
+        dropSysInfo = """drop table if exists SysInfo;"""
         try:
             cur.execute(dropUserInfo)
             cur.execute(dropUserPath)
@@ -108,6 +119,34 @@ def drop_database():
         mysql_connect.close()
     return 0
 
+def copy_files():
+    docs = os.listdir('doc')
+    srcs = os.listdir('src')
+    confs = os.listdir('conf')
+    if not my_conf.http_doc_path or \
+        not os.path.isdir(my_conf.http_doc_path):
+        print "Http doc path '%s' is not exists." % my_conf.http_doc_path
+        return 1
+    if not my_conf.http_cgi_path or \
+        not os.path.isdir(my_conf.http_cgi_path):
+        print "Http cgi-bin path '%s' is not exists." % my_conf.http_cgi_path
+        return 1
+    if not os.path.isdir(os.path.join(
+        my_conf.http_doc_path, 'data')):
+        os.mkdir(os.path.join(my_conf.http_doc_path, 'data'))
+    for doc in docs:
+        shutil.copy(os.path.join('doc/', doc), my_conf.http_doc_path)
+    for src in srcs:
+        if os.path.isfile(os.path.join('src/', src)):
+            shutil.copy(os.path.join('src/', src), my_conf.http_cgi_path)
+    for conf in confs:
+        shutil.copy(os.path.join('conf/', conf), my_conf.http_cgi_path)
+    for mod in mod_list:
+        shutil.copytree(mod, os.path.join(
+                    my_conf.http_cgi_path,
+                    mod.split('/')[-1]))
+    return 0
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         usage()
@@ -120,6 +159,13 @@ if __name__ == '__main__':
             sys.exit(1)
         else:
             print "init database ok."
+
+        #copy the file to the server root
+        if copy_files():
+            print "copy files failed, please check the Path configuration in the 'conf/conf.py'"
+            sys.exit(1)
+        else:
+            print "copy files ok."
 
     elif sys.argv[1] == 'reset':
         if drop_database():
