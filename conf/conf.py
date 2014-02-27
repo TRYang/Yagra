@@ -43,9 +43,9 @@ Version = "0.1"
 # This is http server information
 #====================================================
 # http document root
-http_doc_path = '/home/terry/server/doc/'
+http_doc_path = '/home/apache/doc/'
 # Cgi script root, relative to http document root
-http_cgi_path = '/home/terry/server/cgi-bin/'
+http_cgi_path = '/home/apache/cgi-bin/'
 # The cgi script log root
 CGI_log_dir = '/home/terry/log/'
 
