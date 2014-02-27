@@ -61,3 +61,7 @@ Server_mail_password = 'forYagra'
 # The server mail-box postfix
 Server_mail_postfix = '163.com'
 
+#====================================================
+# This is the cache table configuration
+#====================================================
+Cache_size = 40

@@ -36,6 +36,12 @@ def main():
                                 int(form['UserID'].value)
                                 )
                             )
+                cursor.execute("""update Cache set Password = '%s'
+                                where UserID = %d;""" % (
+                                password,
+                                int(form['UserID'].value)
+                                )
+                            )
             else:
                 raise Exception("Findger is not right, contact the admin!")
             cursor.close()

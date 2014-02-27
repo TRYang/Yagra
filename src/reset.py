@@ -42,6 +42,9 @@ def main():
                 cursor.execute("""update UserInfo set Password = '%s'
                                   where UserID = %d;""" % (
                             new_password, int(cookie['userid'].value)))
+                cursor.execute("""update Cache set Password = '%s'
+                                  where UserID = %d;""" % (
+                            new_password, int(cookie['userid'].value)))
                 mysql_connect.commit()
                 print my_cgifunc.content_type()
                 print my_cgifunc.html_header("Reset success")
