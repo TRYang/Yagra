@@ -37,10 +37,10 @@ def main():
                             int(cookie['userid'].value))
             result = cursor.fetchone()
             if result[1]:
-                os.remove(os.path.join(my_conf.http_doc_path + my_conf.DataPath,
+                os.remove(os.path.join(my_conf.http_doc_path + '/data/',
                             result[1]))
             filename = sha.new(cookie['user'].value).hexdigest()
-            file_path = os.path.join(my_conf.http_doc_path + my_conf.DataPath,
+            file_path = os.path.join(my_conf.http_doc_path + '/data/',
                                     filename)
             with open(file_path, 'w+b') as fp:
                 fp.write(form['file'].file.read())
@@ -57,7 +57,7 @@ def main():
             print my_cgifunc.content_type()
             print my_cgifunc.html_header("upload success")
             print '<h1>upload your new avatar successful!!!</h1>'
-            print """<form method=get action=/cgi-bin/showPage.py>
+            print """<form method=get action=showPage.py>
                     <input type=submit value="Back">
                     </form>"""
             print my_cgifunc.html_tail()

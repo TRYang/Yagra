@@ -45,12 +45,12 @@ def main():
             print '<img src="http://%s:%s/%s/%s" alt="avatar">' % (
                     os.environ.get('SERVER_NAME'),
                     os.environ.get('SERVER_PORT'),
-                    my_conf.DataPath,
+                    'data',
                     avatar_path)
         else:
             print '<h3>You should upload a image as your avatar</h3>'
         print """<FORM METHOD=POST ENCTYPE="multipart/form-data" \
-                action=/cgi-bin/upload.py>
+                action=upload.py>
                     <input type=FILE NAME="file">
                     <input type=SUBMIT value="upload" NAME="upload">
                 </FORM>
@@ -58,7 +58,7 @@ def main():
         print """<FORM METHOD=GET ACTION=/reset_password.html>
                 <INPUT TYPE=SUBMIT VALUE="修改密码" NAME="Reset">
                 </FORM>"""
-        print """<FORM METHOD=GET ACTION=/cgi-bin/logout.py>
+        print """<FORM METHOD=GET ACTION=logout.py>
                 <INPUT TYPE=SUBMIT VALUE="登出" NAME="Logout">
                 </FORM>"""
     else:

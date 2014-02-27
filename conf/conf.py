@@ -44,14 +44,10 @@ Version = "0.1"
 #====================================================
 # http document root
 http_doc_path = '/home/apache/doc/'
-# Document root, relative to http document root
-DocPath = '/'
 # Cgi script root, relative to http document root
-CgiPath = '/cgi-bin/'
+http_cgi_path = '/home/apache/cgi-bin/'
 # The cgi script log root
-CGI_log_dir = '/home/terry/log'
-# The data root, relative to http document root
-DataPath = '/data/'
+CGI_log_dir = '/home/terry/log/'
 
 #====================================================
 # This is the server mail information

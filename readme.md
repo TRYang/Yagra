@@ -72,8 +72,10 @@
         AdminEMail：管理员的E-mail地址，用于系统故障发送报告到邮箱
 
     3、配置服务器信息
-        DocPath：服务器存放文档的根目录
-        CgiPath：服务器存放cgi程序的目录
+        http_doc_path：服务器存放文档的根目录
+        http_cgi_path：服务器/cgi-bin/的目录
+        * 以上两项根据http server的配置文件来设置
+        * 注意目录的权限问题
         CGI_log_dir：服务器存放cgi程序日志的目录
 
     4、配置管理邮箱信息
