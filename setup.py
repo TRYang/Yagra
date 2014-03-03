@@ -180,7 +180,6 @@ if __name__ == '__main__':
         else:
             print "init database ok."
 
-        sys.exit(0)
         #copy the file to the server root
         if copy_files():
             print "copy files failed, please check the Path configuration in the 'conf/conf.py'"
